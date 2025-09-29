@@ -1,0 +1,34 @@
+.betSlipPanel {
+  /* Custom property for panel width */
+  --bet-slip-panel-width: 340px;
+}
+
+.fluidPanel {
+  padding: var(--fluid-panel-padding);
+  border-radius: var(--fluid-radius);
+  font-size: var(--fluid-base);
+}
+
+.fluidGap {
+  gap: var(--fluid-gap);
+}
+
+.fluidLg {
+  font-size: var(--fluid-lg);
+}
+
+.fluidXl {
+  font-size: var(--fluid-xl);
+}
+
+.fluidBase {
+  font-size: var(--fluid-base);
+}
+
+.fluidRadius {
+  border-radius: var(--fluid-radius);
+}
+
+.colorWin {
+  color: var(--color-win);
+}

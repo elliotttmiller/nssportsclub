@@ -1,0 +1,12 @@
+.navPanel {
+  --nav-panel-width: 256px;
+}
+
+.stickyHeader {
+  font-size: var(--fluid-lg);
+  border-radius: var(--fluid-radius);
+}
+
+.scrollArea {
+  font-size: var(--fluid-base);
+}

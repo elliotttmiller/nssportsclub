@@ -1,0 +1,31 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+:root {
+  --background: 15.34% 0.018 257.23;
+  --foreground: 98.93% 0.002 253.21;
+  --primary: 62.8% 0.226 264.33;
+  --primary-foreground: 13.34% 0.048 263.22;
+  --secondary: 22.29% 0.038 259.34;
+  --secondary-foreground: 98.93% 0.002 253.21;
+  --muted: 22.29% 0.038 259.34;
+  --muted-foreground: 69.58% 0.011 256.36;
+  --accent: 70.83% 0.239 142.32;
+  --accent-foreground: 13.34% 0.048 263.22;
+  --destructive: 56.17% 0.229 17.51;
+  --destructive-foreground: 98.93% 0.002 253.21;
+  --border: 22.29% 0.038 259.34;
+  --input: 22.29% 0.038 259.34;
+  --ring: 62.8% 0.226 264.33;
+  --radius: 0.5rem;
+}
+
+*,
+*::before,
+*::after {
+  border-color: oklch(var(--border));
+}
+body {
+  background-color: oklch(var(--background));
+  color: oklch(var(--foreground));
+}
