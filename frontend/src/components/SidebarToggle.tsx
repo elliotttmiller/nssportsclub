@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { motion, AnimatePresence } from "framer-motion";
 import { CaretLeft, CaretRight, List } from "@phosphor-icons/react";
@@ -30,10 +30,10 @@ export function SidebarToggle({
   return (
     <motion.div
       className={cn(
-        "fixed top-1/2 -translate-y-1/2 z-[99] transition-all duration-[350ms] ease-[cubic-bezier(0.23,1,0.32,1)]",
+        "fixed top-1/2 -translate-y-1/2 z-[99] transition-all duration-300 ease-in-out",
         isLeft
-          ? (isOpen ? "left-[calc(var(--nav-panel-width,256px)+12px)] right-auto" : "left-2 right-auto")
-          : (isOpen ? "right-[calc(var(--bet-slip-panel-width,340px)+12px)] left-auto" : "right-2 left-auto"),
+          ? (isOpen ? "left-[calc(var(--nav-panel-width,256px)+12px)]" : "left-2")
+          : (isOpen ? "right-[calc(var(--bet-slip-panel-width,340px)+12px)]" : "right-2"),
         className,
       )}
       initial={{ opacity: 0, scale: 0.8 }}
@@ -48,11 +48,12 @@ export function SidebarToggle({
           className={cn(
             "w-9 h-9 rounded-full shadow-lg border border-accent/70",
             "bg-card/80 hover:bg-accent/90 hover:border-accent/90",
-            "transition-all duration-300 hover:scale-105 hover:shadow-xl",
+            "transition-all duration-300 hover:scale-110 hover:shadow-2xl",
             "opacity-95 hover:opacity-100",
             "backdrop-blur-md",
-            "ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            "ring-offset-background focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
           )}
+          aria-label={isLeft ? (isOpen ? "Hide Sidebar" : "Show Sidebar") : (isOpen ? "Hide Bet Slip" : "Show Bet Slip")}
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
@@ -75,7 +76,7 @@ export function SidebarToggle({
         </Button>
         {showBetBadge && (
           <span
-            className="absolute -top-1 -right-1 min-w-[18px] h-[18px] rounded-full flex items-center justify-center bg-[color:var(--color-accent)] text-[color:var(--color-accent-contrast)] text-xs font-bold shadow-md border-2 border-white z-20"
+            className="absolute -top-2 -right-2 min-w-[20px] h-[20px] rounded-full flex items-center justify-center bg-accent text-accent-foreground text-xs font-bold shadow-lg border-2 border-white z-20 animate-bounce"
             data-testid="desktop-betslip-badge"
           >
             {betCount}
