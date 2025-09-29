@@ -1,11 +1,11 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { motion, useMotionValue } from "framer-motion";
 import { Receipt } from "@phosphor-icons/react";
-import { useKV } from "@/hooks/useKV";
 import { useBetSlip } from "@/context/BetSlipContext";
 import { useNavigation } from "@/context/NavigationContext";
-import { useIsMobile } from "@/hooks/useIsMobile";
+import useIsMobile from "@/hooks/useIsMobile";
 import { cn } from "@/lib/utils";
+import styles from "./FloatingBetSlipButton.module.css";
 
 interface Position {
   x: number;
@@ -16,10 +16,7 @@ export function FloatingBetSlipButton() {
   const { betSlip } = useBetSlip();
   const { navigation, setIsBetSlipOpen } = useNavigation();
   const isMobile = useIsMobile();
-  const [savedPosition, setSavedPosition] = useKV<Position>(
-    "bet-slip-button-position",
-    { x: 0, y: 0 },
-  );
+  const [savedPosition, setSavedPosition] = useState<Position>({ x: 0, y: 0 });
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -116,8 +113,6 @@ export function FloatingBetSlipButton() {
     setSavedPosition(finalPos);
   };
 
-  // handleClick is no longer needed; click logic is handled inline in the onClick prop above.
-
   if (!isInitialized || !isMobile) return null;
 
   // Responsive sizing: use universal-responsive-container for spacing
@@ -153,36 +148,14 @@ export function FloatingBetSlipButton() {
     >
       <div
         className={cn(
-          "relative w-full h-full rounded-full flex items-center justify-center",
-          "shadow-lg transition-colors duration-200",
-          "cursor-pointer select-none",
+          "relative w-full h-full rounded-full flex items-center justify-center shadow-lg transition-colors duration-200 cursor-pointer select-none",
           isDragging && "cursor-grabbing scale-105",
-          navigation.isBetSlipOpen
-            ? "bg-accent/90 border-accent"
-            : "bg-background/80 border-border",
+          navigation.isBetSlipOpen ? "bg-accent/90 border-accent" : "bg-background/80 border-border",
+          styles["floating-betslip-btn"],
+          navigation.isBetSlipOpen && styles.open,
         )}
-        style={{
-          border: "2px solid",
-          borderColor: navigation.isBetSlipOpen
-            ? "var(--color-accent)"
-            : "var(--color-border)",
-          background: navigation.isBetSlipOpen
-            ? "var(--color-accent)"
-            : "var(--color-background)",
-          transition: "background 0.2s, border 0.2s",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = "var(--color-accent)";
-          e.currentTarget.style.border = "2px solid var(--color-accent)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = navigation.isBetSlipOpen
-            ? "var(--color-accent)"
-            : "var(--color-background)";
-          e.currentTarget.style.border = navigation.isBetSlipOpen
-            ? "2px solid var(--color-accent)"
-            : "2px solid var(--color-border)";
-        }}
+        onMouseEnter={undefined}
+        onMouseLeave={undefined}
       >
         <Receipt
           className="w-6 h-6 text-accent-foreground"
@@ -190,8 +163,10 @@ export function FloatingBetSlipButton() {
         />
         {betSlip.bets.length > 0 && (
           <div
-            className="absolute -top-1 -right-1 min-w-[18px] h-[18px] rounded-full flex items-center justify-center bg-primary text-primary-foreground text-xs font-medium shadow-lg border-2 border-white"
-            style={{ zIndex: 100 }}
+            className={cn(
+              "absolute -top-1 -right-1 min-w-[18px] h-[18px] rounded-full flex items-center justify-center bg-primary text-primary-foreground text-xs font-medium shadow-lg border-2 border-white",
+              styles["betslip-badge"]
+            )}
           >
             {betSlip.bets.length}
           </div>

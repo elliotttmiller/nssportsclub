@@ -154,7 +154,6 @@ export const CompactMobileGameRow = memo(
                     size="xs"
                     variant="minimal"
                     className="flex-shrink-0 w-4 h-4"
-                    fallbackToAbbreviation={false}
                   />
                   <span className="text-xs font-medium text-foreground truncate leading-tight">
                     {game.awayTeam.shortName || game.awayTeam.name}
@@ -175,7 +174,6 @@ export const CompactMobileGameRow = memo(
                     size="xs"
                     variant="minimal"
                     className="flex-shrink-0 w-4 h-4"
-                    fallbackToAbbreviation={false}
                   />
                   <span className="text-xs font-medium text-foreground truncate leading-tight">
                     {game.homeTeam.shortName || game.homeTeam.name}

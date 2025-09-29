@@ -140,7 +140,6 @@ export const ProfessionalGameRow = memo(
                 league={game.leagueId}
                 size="sm"
                 variant="minimal"
-                fallbackToAbbreviation={false}
               />
               <span className="font-medium text-foreground">
                 {game.awayTeam.name}
@@ -156,7 +155,6 @@ export const ProfessionalGameRow = memo(
                 league={game.leagueId}
                 size="sm"
                 variant="minimal"
-                fallbackToAbbreviation={false}
               />
               <span className="font-medium text-foreground">
                 {game.homeTeam.name}

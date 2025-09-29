@@ -1,0 +1,16 @@
+.floating-betslip-btn {
+  border: 2px solid var(--color-border);
+  background: var(--color-background);
+  transition: background 0.2s, border 0.2s;
+}
+.floating-betslip-btn.open {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+.floating-betslip-btn:hover {
+  background: var(--color-accent);
+  border: 2px solid var(--color-accent);
+}
+.floating-betslip-btn .betslip-badge {
+  z-index: 100;
+}

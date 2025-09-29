@@ -6,11 +6,7 @@ import { BetSlipProvider } from '@/context/BetSlipContext';
 import { NavigationProvider } from '@/context/NavigationContext';
 import WorkspacePanel from '@/components/panels/WorkspacePanel';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout() {
   return (
     <html lang="en">
       <body>

@@ -296,10 +296,4 @@ const WorkspacePanel = () => {
 };
 
 export default WorkspacePanel;
-// TODO: Restore infinite scroll, persistent layout prefs, and advanced sorting when hooks/services are available.
 
-/* Add to your CSS (e.g., globals.css or a module):
-.stats-header-container {
-  /* move previous inline styles here if needed */
-}
-*/

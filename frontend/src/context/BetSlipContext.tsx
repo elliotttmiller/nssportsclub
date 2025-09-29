@@ -63,13 +63,10 @@ const defaultBetSlip: BetSlip = {
   totalOdds: 0,
 };
 
-// Integrate real user ID from AuthContext here when available
-const USER_ID = "demo";
-
 export const BetSlipProvider: React.FC<BetSlipProviderProps> = ({
   children,
 }) => {
-  const { data: remoteBetSlip } = useActiveBetSlip(USER_ID);
+  const { data: remoteBetSlip } = useActiveBetSlip();
   const setRemoteBetSlip = useSetActiveBetSlip();
   const [betSlip, setBetSlip] = useState<BetSlip>(defaultBetSlip);
 
@@ -114,7 +111,7 @@ export const BetSlipProvider: React.FC<BetSlipProviderProps> = ({
           : Math.round(-100 / (combinedOdds - 1));
 
       const totalPayout =
-        totalStake + calculatePayout(totalStake, americanOdds);
+        totalStake + calculatePayout({ odds: americanOdds, stake: totalStake } as Bet);
 
       return { totalStake, totalPayout, totalOdds: americanOdds };
     }
@@ -124,7 +121,7 @@ export const BetSlipProvider: React.FC<BetSlipProviderProps> = ({
   const syncAndSet = useCallback(
     async (nextSlip: BetSlip) => {
       setBetSlip(nextSlip);
-      await setRemoteBetSlip(USER_ID, nextSlip);
+      await setRemoteBetSlip(nextSlip);
     },
     [setRemoteBetSlip],
   );
@@ -172,7 +169,7 @@ export const BetSlipProvider: React.FC<BetSlipProviderProps> = ({
       odds,
       line,
       stake: 10,
-      potentialPayout: 10 + calculatePayout(10, odds),
+      potentialPayout: 10 + calculatePayout({ odds, stake: 10 } as Bet),
       game,
       periodOrQuarterOrHalf,
       playerProp: playerProp
@@ -213,7 +210,7 @@ export const BetSlipProvider: React.FC<BetSlipProviderProps> = ({
         return {
           ...bet,
           stake,
-          potentialPayout: stake + calculatePayout(stake, bet.odds),
+          potentialPayout: stake + calculatePayout({ odds: bet.odds, stake } as Bet),
         };
       }
       return bet;
@@ -221,7 +218,7 @@ export const BetSlipProvider: React.FC<BetSlipProviderProps> = ({
     if (betSlip.betType === "parlay") {
       updatedBets.forEach((bet) => {
         bet.stake = stake;
-        bet.potentialPayout = stake + calculatePayout(stake, bet.odds);
+        bet.potentialPayout = stake + calculatePayout({ odds: bet.odds, stake } as Bet);
       });
     }
     const totals = calculateBetSlipTotals(updatedBets, betSlip.betType);

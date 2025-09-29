@@ -6,3 +6,9 @@
   pointer-events: none;
   box-shadow: var(--accent-ring-shadow, inset 0 0 0 1px #ccc);
 }
+.accent-ring[data-primary-color] {
+  box-shadow: inset 0 0 0 1px var(--accent-ring-color, #ccc);
+}
+.accent-ring[data-primary-color] {
+  --accent-ring-color: attr(data-primary-color);
+}

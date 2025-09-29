@@ -4,15 +4,10 @@ import PropTypes from "prop-types";
 import {
   createContext,
   useContext,
-  useEffect,
-  useState,
   useCallback,
+  useState,
   ReactNode,
 } from "react";
-import { useUser, useSetUser } from "@/hooks/useApi";
-
-// Integrate real user ID from AuthContext here when available
-const USER_ID = "demo";
 
 interface UserProfile {
   username: string;
@@ -45,13 +40,7 @@ interface UserProviderProps {
   children: ReactNode;
 }
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const { data: remoteUser, loading } = useUser(USER_ID);
-  const setRemoteUser = useSetUser();
   const [user, setUser] = useState<UserProfile | null>(defaultUser);
-
-  useEffect(() => {
-    if (remoteUser && !loading) setUser(remoteUser);
-  }, [remoteUser, loading]);
 
   const updateUser = useCallback(
     async (profile: Partial<UserProfile>) => {
@@ -63,9 +52,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         betHistory: profile.betHistory ?? user?.betHistory ?? [],
       };
       setUser(nextUser);
-      await setRemoteUser(USER_ID, nextUser);
     },
-    [user, setRemoteUser],
+    [user],
   );
 
   const addDeposit = useCallback(
@@ -79,9 +67,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         betHistory: user?.betHistory ?? [],
       };
       setUser(nextUser);
-      await setRemoteUser(USER_ID, nextUser);
     },
-    [user, setRemoteUser],
+    [user],
   );
 
   const addBetSlipToHistory = useCallback(
@@ -94,9 +81,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         betHistory: [...(user?.betHistory || []), betslipId],
       };
       setUser(nextUser);
-      await setRemoteUser(USER_ID, nextUser);
     },
-    [user, setRemoteUser],
+    [user],
   );
 
   const value: UserContextType = {

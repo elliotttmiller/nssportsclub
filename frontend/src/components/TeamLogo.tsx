@@ -21,12 +21,12 @@ interface TeamLogoProps {
 }
 
 const sizeMap = {
-  xs: "w-4 h-4 text-xs",
-  sm: "w-6 h-6 text-sm",
-  md: "w-8 h-8 text-base",
-  lg: "w-12 h-12 text-lg",
-  xl: "w-16 h-16 text-xl",
-  "2xl": "w-20 h-20 text-2xl",
+  xs: "w-4 h-4 min-w-[16px] min-h-[16px] max-w-[16px] max-h-[16px]",
+  sm: "w-8 h-8 min-w-[32px] min-h-[32px] max-w-[32px] max-h-[32px]",
+  md: "w-12 h-12 min-w-[48px] min-h-[48px] max-w-[48px] max-h-[48px]",
+  lg: "w-16 h-16 min-w-[64px] min-h-[64px] max-w-[64px] max-h-[64px]",
+  xl: "w-20 h-20 min-w-[80px] min-h-[80px] max-w-[80px] max-h-[80px]",
+  "2xl": "w-24 h-24 min-w-[96px] min-h-[96px] max-w-[96px] max-h-[96px]",
 };
 
 export const TeamLogo = memo(function TeamLogo({
@@ -71,7 +71,7 @@ export const TeamLogo = memo(function TeamLogo({
   const showFallback = !logoUrl;
 
   const containerClasses = cn(
-    "flex items-center justify-center relative overflow-hidden",
+    "flex items-center justify-center relative overflow-hidden bg-white aspect-square",
     {
       "rounded-full": variant === "circle",
       "rounded-lg": variant === "square",
@@ -87,7 +87,7 @@ export const TeamLogo = memo(function TeamLogo({
       src={logoUrl}
       alt={`${teamConfig.city} ${teamConfig.name} logo`}
       className={cn(
-        "w-full h-full object-contain transition-opacity duration-300",
+        "block m-auto object-contain max-w-full max-h-full w-full h-full",
         imageLoaded ? "opacity-100" : "opacity-0",
       )}
       onLoad={() => setImageLoaded(true)}
@@ -122,8 +122,8 @@ export const TeamLogo = memo(function TeamLogo({
       {/* Team color accent ring */}
       {variant !== "minimal" && (
         <div
-          className={styles.accentRing}
-          style={{ boxShadow: `inset 0 0 0 1px ${teamConfig.primaryColor}` }}
+          className={styles.accentRing + ' accent-ring'}
+          data-primary-color={teamConfig.primaryColor}
         />
       )}
     </div>
