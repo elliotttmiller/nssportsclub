@@ -138,52 +138,34 @@ export const CompactMobileGameRow = memo(
           </div>
 
           {/* Teams and Odds Grid - 4 columns to match header */}
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-4 items-center py-4 px-4 min-h-[80px] bg-card rounded-lg shadow-md">
             {/* Teams Column */}
-            <div className="flex flex-col justify-between h-[60px]">
-              {/* Away Team */}
-              <div className="flex items-center h-7">
-                <motion.div
-                  className="flex items-center gap-1.5"
-                  whileHover={{ x: 2 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <TeamLogo
-                    team={game.awayTeam.id || game.awayTeam.shortName || game.awayTeam.name}
-                    league={game.leagueId}
-                    size="xs"
-                    variant="minimal"
-                    className="flex-shrink-0 w-4 h-4"
-                  />
-                  <span className="text-xs font-medium text-foreground truncate leading-tight">
-                    {game.awayTeam.shortName || game.awayTeam.name}
-                  </span>
-                </motion.div>
+            <div className="flex flex-col justify-between h-[70px] gap-3">
+              <div className="flex items-center gap-2">
+                <TeamLogo
+                  team={game.awayTeam.id || game.awayTeam.shortName || game.awayTeam.name}
+                  league={game.leagueId}
+                  size="xs"
+                  variant="minimal"
+                  className="flex-shrink-0 w-7 h-7 shadow rounded-lg"
+                />
+                <span className="text-sm font-semibold text-foreground truncate max-w-[90px]">{game.awayTeam.shortName || game.awayTeam.name}</span>
               </div>
-
-              {/* Home Team */}
-              <div className="flex items-center h-7">
-                <motion.div
-                  className="flex items-center gap-1.5"
-                  whileHover={{ x: 2 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <TeamLogo
-                    team={game.homeTeam.id || game.homeTeam.shortName || game.homeTeam.name}
-                    league={game.leagueId}
-                    size="xs"
-                    variant="minimal"
-                    className="flex-shrink-0 w-4 h-4"
-                  />
-                  <span className="text-xs font-medium text-foreground truncate leading-tight">
-                    {game.homeTeam.shortName || game.homeTeam.name}
-                  </span>
-                </motion.div>
+              <div className="flex items-center gap-2">
+                <TeamLogo
+                  team={game.homeTeam.id || game.homeTeam.shortName || game.homeTeam.name}
+                  league={game.leagueId}
+                  size="xs"
+                  variant="minimal"
+                  className="flex-shrink-0 w-7 h-7 shadow rounded-lg"
+                />
+                <span className="text-sm font-semibold text-foreground truncate max-w-[90px]">{game.homeTeam.shortName || game.homeTeam.name}</span>
               </div>
             </div>
 
             {/* Spread Column */}
-            <div className="flex flex-col justify-between h-[60px]">
+            <div className="flex flex-col gap-2 items-center">
+              <span className="text-[11px] text-muted-foreground font-semibold mb-1">SPREAD</span>
               {/* Away Spread */}
               <motion.div
                 whileHover={{ scale: 1.03 }}
@@ -239,7 +221,8 @@ export const CompactMobileGameRow = memo(
             </div>
 
             {/* Total Column */}
-            <div className="flex flex-col justify-between h-[60px]">
+            <div className="flex flex-col gap-2 items-center">
+              <span className="text-[11px] text-muted-foreground font-semibold mb-1">TOTAL</span>
               {/* Over */}
               <motion.div
                 whileHover={{ scale: 1.03 }}
@@ -292,8 +275,9 @@ export const CompactMobileGameRow = memo(
               </motion.div>
             </div>
 
-            {/* Money Line Column - Perfectly Aligned */}
-            <div className="flex flex-col justify-between h-[60px]">
+            {/* Money Line Column */}
+            <div className="flex flex-col gap-2 items-center">
+              <span className="text-[11px] text-muted-foreground font-semibold mb-1">MONEY LINE</span>
               {/* Away ML */}
               <motion.div
                 whileHover={{ scale: 1.03 }}

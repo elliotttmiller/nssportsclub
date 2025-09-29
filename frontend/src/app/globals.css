@@ -17,7 +17,7 @@
   --border: 22.29% 0.038 259.34;
   --input: 22.29% 0.038 259.34;
   --ring: 62.8% 0.226 264.33;
-  --radius: 0.5rem;
+  --radius: 1rem;
 }
 
 *,
@@ -28,4 +28,10 @@
 body {
   background-color: oklch(var(--background));
   color: oklch(var(--foreground));
+  font-family: 'Inter', 'Nunito', 'Manrope', 'Segoe UI', 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

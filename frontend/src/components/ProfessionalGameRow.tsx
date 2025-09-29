@@ -9,7 +9,6 @@ import {
   formatTotalLine,
 } from "@/lib/formatters";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus } from "@phosphor-icons/react";
 import { Button } from "./ui/button";
 import { useBetSlip } from "@/context/BetSlipContext";
 import { cn } from "@/lib/utils";
@@ -22,19 +21,11 @@ interface ProfessionalGameRowProps {
 }
 
 export const ProfessionalGameRow = memo(
-  ({ game, isFirstInGroup, showTime }: ProfessionalGameRowProps) => {
+  ({ game, isFirstInGroup }: ProfessionalGameRowProps) => {
     const { addBet, removeBet, betSlip } = useBetSlip();
     const [isExpanded, setIsExpanded] = useState(false);
-    const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-      new Set(),
-    );
 
     const gameDate = new Date(game.startTime);
-    const timeString = gameDate.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
 
     // Helper to check if a bet is in the bet slip
     const getBetId = useCallback(
@@ -125,209 +116,139 @@ export const ProfessionalGameRow = memo(
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {/* Game Row */}
-        <div className="grid grid-cols-[80px_1fr_120px_120px_120px_32px] gap-4 items-center py-2 px-4 min-h-[60px]">
-          {/* League Column (now on left) */}
-          <div className="text-xs text-muted-foreground font-medium">
-            {game.leagueId}
-          </div>
-
-          {/* Teams Column */}
-          <div className="space-y-1">
-            {/* Away Team */}
-            <div className="flex items-center gap-3">
-              <TeamLogo
-                team={game.awayTeam.id || game.awayTeam.shortName || game.awayTeam.name}
-                league={game.leagueId}
-                size="sm"
-                variant="minimal"
-              />
-              <span className="font-medium text-foreground">
-                {game.awayTeam.name}
+        <div className="grid grid-cols-[120px_2fr_1fr_1fr_1fr_48px] gap-4 items-center py-2 px-6 min-h-[64px] bg-card rounded-lg border border-transparent shadow-xl">
+          {/* NFL and Time - horizontally centered together */}
+          <div className="relative h-full">
+            <div className="flex items-center justify-center h-full w-full flex-col">
+              <span className="font-bold text-green-600 text-lg tracking-wide mb-1">
+                NFL
               </span>
-              <span className="text-sm text-muted-foreground">
-                ({game.awayTeam.shortName})
-              </span>
-            </div>
-            {/* Home Team */}
-            <div className="flex items-center gap-3">
-              <TeamLogo
-                team={game.homeTeam.id || game.homeTeam.shortName || game.homeTeam.name}
-                league={game.leagueId}
-                size="sm"
-                variant="minimal"
-              />
-              <span className="font-medium text-foreground">
-                {game.homeTeam.name}
-              </span>
-              <span className="text-sm text-muted-foreground">
-                ({game.homeTeam.shortName})
+              <span className="text-base font-bold text-foreground mt-0">
+                {gameDate.toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                })}
               </span>
             </div>
           </div>
-
-          {/* Spread Column */}
-          <div className="space-y-1">
-            {/* Away Spread */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2, type: "spring", stiffness: 300 }}
-            >
-              <Button
-                variant={isBetInSlip("spread", "away") ? "default" : "outline"}
-                size="sm"
-                onClick={(e) => handleBetClick("spread", "away", e)}
-                className={cn(
-                  "w-full h-8 text-xs px-2 transition-all duration-200 font-medium",
-                  isBetInSlip("spread", "away")
-                    ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
-                    : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
-                )}
-              >
-                {formatSpreadLine(game.odds.spread.away.line || 0)}{" "}
-                {formatOdds(game.odds.spread.away.odds)}
-              </Button>
-            </motion.div>
-            {/* Home Spread */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2, type: "spring", stiffness: 300 }}
-            >
-              <Button
-                variant={isBetInSlip("spread", "home") ? "default" : "outline"}
-                size="sm"
-                onClick={(e) => handleBetClick("spread", "home", e)}
-                className={cn(
-                  "w-full h-8 text-xs px-2 transition-all duration-200 font-medium",
-                  isBetInSlip("spread", "home")
-                    ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
-                    : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
-                )}
-              >
-                {formatSpreadLine(game.odds.spread.home.line || 0)}{" "}
-                {formatOdds(game.odds.spread.home.odds)}
-              </Button>
-            </motion.div>
+          {/* Away Team */}
+          <div className="flex items-center gap-4 min-w-0">
+            <TeamLogo team={game.awayTeam.id || game.awayTeam.shortName || game.awayTeam.name} league={game.leagueId} size="lg" className="shadow-lg rounded-md bg-white" />
+            <span className="font-bold text-xl text-foreground truncate max-w-[160px]">
+              {game.awayTeam.name}
+            </span>
+            <span className="text-base text-muted-foreground">
+              ({game.awayTeam.shortName})
+            </span>
           </div>
-
-          {/* Total Column */}
-          <div className="space-y-1">
-            {/* Over */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2, type: "spring", stiffness: 300 }}
+          {/* Away Odds */}
+          <Button
+            variant={isBetInSlip("spread", "away") ? "default" : "outline"}
+            size="sm"
+            onClick={(e) => handleBetClick("spread", "away", e)}
+            className={cn(
+              "h-8 text-xs px-2 transition-all duration-200 font-medium w-full",
+              isBetInSlip("spread", "away")
+                ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
+                : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+            )}
+          >
+            {formatSpreadLine(game.odds.spread.away.line || 0)}{" "}
+            {formatOdds(game.odds.spread.away.odds)}
+          </Button>
+          <Button
+            variant={isBetInSlip("total", "over") ? "default" : "outline"}
+            size="sm"
+            onClick={(e) => handleBetClick("total", "over", e)}
+            className={cn(
+              "h-8 text-xs px-2 transition-all duration-200 font-medium w-full",
+              isBetInSlip("total", "over")
+                ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
+                : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+            )}
+          >
+            O{formatTotalLine(game.odds.total.over?.line || 0)}{" "}
+            {formatOdds(game.odds.total.over?.odds || 0)}
+          </Button>
+          <Button
+            variant={isBetInSlip("moneyline", "away") ? "default" : "outline"}
+            size="sm"
+            onClick={(e) => handleBetClick("moneyline", "away", e)}
+            className={cn(
+              "h-8 text-xs px-2 transition-all duration-200 font-medium w-full",
+              isBetInSlip("moneyline", "away")
+                ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
+                : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+            )}
+          >
+            {formatOdds(game.odds.moneyline.away.odds)}
+          </Button>
+          {/* Single '+' button for the gamecard */}
+          <div className="flex items-center justify-end pr-2 min-w-[48px]">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full shadow-lg text-xl ml-2"
             >
-              <Button
-                variant={isBetInSlip("total", "over") ? "default" : "outline"}
-                size="sm"
-                onClick={(e) => handleBetClick("total", "over", e)}
-                className={cn(
-                  "w-full h-8 text-xs px-2 transition-all duration-200 font-medium",
-                  isBetInSlip("total", "over")
-                    ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
-                    : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
-                )}
-              >
-                O{formatTotalLine(game.odds.total.over?.line || 0)}{" "}
-                {formatOdds(game.odds.total.over?.odds || 0)}
-              </Button>
-            </motion.div>
-            {/* Under */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2, type: "spring", stiffness: 300 }}
-            >
-              <Button
-                variant={isBetInSlip("total", "under") ? "default" : "outline"}
-                size="sm"
-                onClick={(e) => handleBetClick("total", "under", e)}
-                className={cn(
-                  "w-full h-8 text-xs px-2 transition-all duration-200 font-medium",
-                  isBetInSlip("total", "under")
-                    ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
-                    : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
-                )}
-              >
-                U{formatTotalLine(game.odds.total.under?.line || 0)}{" "}
-                {formatOdds(game.odds.total.under?.odds || 0)}
-              </Button>
-            </motion.div>
-          </div>
-
-          {/* Money Line Column */}
-          <div className="space-y-1">
-            {/* Away ML */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2, type: "spring", stiffness: 300 }}
-            >
-              <Button
-                variant={
-                  isBetInSlip("moneyline", "away") ? "default" : "outline"
-                }
-                size="sm"
-                onClick={(e) => handleBetClick("moneyline", "away", e)}
-                className={cn(
-                  "w-full h-8 text-xs px-2 transition-all duration-200 font-medium",
-                  isBetInSlip("moneyline", "away")
-                    ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
-                    : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
-                )}
-              >
-                {formatOdds(game.odds.moneyline.away.odds)}
-              </Button>
-            </motion.div>
-            {/* Home ML */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2, type: "spring", stiffness: 300 }}
-            >
-              <Button
-                variant={
-                  isBetInSlip("moneyline", "home") ? "default" : "outline"
-                }
-                size="sm"
-                onClick={(e) => handleBetClick("moneyline", "home", e)}
-                className={cn(
-                  "w-full h-8 text-xs px-2 transition-all duration-200 font-medium",
-                  isBetInSlip("moneyline", "home")
-                    ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
-                    : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
-                )}
-              >
-                {formatOdds(game.odds.moneyline.home.odds)}
-              </Button>
-            </motion.div>
-          </div>
-
-          {/* More Options Column */}
-          <div className="flex justify-center">
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 90 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 w-8 p-0 opacity-50 group-hover:opacity-100 transition-all duration-200 hover:bg-accent/20"
-                aria-label="Expand"
-              >
-                <Plus size={16} />
-              </Button>
-            </motion.div>
-          </div>
-          {/* Time Column (now on right) */}
-          <div className="text-xs text-muted-foreground font-medium text-right">
-            {showTime && timeString}
+              +
+            </Button>
           </div>
         </div>
-
+        {/* Home Team Row - no NFL/time or '+' button */}
+        <div className="grid grid-cols-[120px_2fr_1fr_1fr_1fr_48px] gap-4 items-center py-2 px-6 min-h-[64px] bg-card rounded-lg border border-transparent shadow-xl">
+          <div></div>
+          <div className="flex items-center gap-4 min-w-0">
+            <TeamLogo team={game.homeTeam.id || game.homeTeam.shortName || game.homeTeam.name} league={game.leagueId} size="lg" className="shadow-lg rounded-md bg-white" />
+            <span className="font-bold text-xl text-foreground truncate max-w-[160px]">
+              {game.homeTeam.name}
+            </span>
+            <span className="text-base text-muted-foreground">
+              ({game.homeTeam.shortName})
+            </span>
+          </div>
+          <Button
+            variant={isBetInSlip("spread", "home") ? "default" : "outline"}
+            size="sm"
+            onClick={(e) => handleBetClick("spread", "home", e)}
+            className={cn(
+              "h-8 text-xs px-2 transition-all duration-200 font-medium w-full",
+              isBetInSlip("spread", "home")
+                ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
+                : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+            )}
+          >
+            {formatSpreadLine(game.odds.spread.home.line || 0)}{" "}
+            {formatOdds(game.odds.spread.home.odds)}
+          </Button>
+          <Button
+            variant={isBetInSlip("total", "under") ? "default" : "outline"}
+            size="sm"
+            onClick={(e) => handleBetClick("total", "under", e)}
+            className={cn(
+              "h-8 text-xs px-2 transition-all duration-200 font-medium w-full",
+              isBetInSlip("total", "under")
+                ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
+                : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+            )}
+          >
+            U{formatTotalLine(game.odds.total.under?.line || 0)}{" "}
+            {formatOdds(game.odds.total.under?.odds || 0)}
+          </Button>
+          <Button
+            variant={isBetInSlip("moneyline", "home") ? "default" : "outline"}
+            size="sm"
+            onClick={(e) => handleBetClick("moneyline", "home", e)}
+            className={cn(
+              "h-8 text-xs px-2 transition-all duration-200 font-medium w-full",
+              isBetInSlip("moneyline", "home")
+                ? "bg-accent text-accent-foreground shadow-md ring-2 ring-accent/20"
+                : "hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+            )}
+          >
+            {formatOdds(game.odds.moneyline.home.odds)}
+          </Button>
+          <div></div>
+        </div>
         {/* Expanded Section */}
         <AnimatePresence mode="wait">
           {isExpanded && (
@@ -342,9 +263,7 @@ export const ProfessionalGameRow = memo(
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-muted-foreground">Status: </span>
-                    <span className="font-medium">
-                      {game.status || "Scheduled"}
-                    </span>
+                    <span className="font-medium">{game.status || "Scheduled"}</span>
                   </div>
                   <div>
                     <span className="text-muted-foreground">League: </span>
@@ -356,15 +275,10 @@ export const ProfessionalGameRow = memo(
                   </div>
                   <div>
                     <span className="text-muted-foreground">Start: </span>
-                    <span className="font-medium">
-                      {new Date(game.startTime).toLocaleDateString()}
-                    </span>
+                    <span className="font-medium">{new Date(game.startTime).toLocaleDateString()}</span>
                   </div>
                 </div>
-
-                <div className="pt-2 text-xs text-muted-foreground text-center">
-                  Click row to expand/collapse additional game information
-                </div>
+                <div className="pt-2 text-xs text-muted-foreground text-center">Click row to expand/collapse additional game information</div>
               </div>
             </motion.div>
           )}

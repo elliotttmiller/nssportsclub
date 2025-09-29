@@ -24,9 +24,22 @@ module.exports = {
         ring: 'oklch(var(--ring))',
       },
       borderRadius: {
+        xl: '1.5rem',
+        '2xl': '2rem',
+        full: '9999px',
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      fontFamily: {
+        sans: [
+          'Inter',
+          'Nunito',
+          'Manrope',
+          'Segoe UI',
+          'Arial',
+          'sans-serif',
+        ],
       },
     },
   },

@@ -124,11 +124,9 @@ const WorkspacePanel = () => {
             className={cn("h-full universal-responsive-container px-0 sm:px-4")}
             showScrollbar={false}
           >
-            <div
-              className="pt-2 pb-24 sm:pb-4 stats-header-container fluid-base-font"
-            >
-              {/* Professional League Header */}
-              {navigation.selectedLeague && processedGames.length > 0 && (
+            <div className="pt-2 pb-24 sm:pb-4 stats-header-container fluid-base-font">
+              {/* Professional League Header - Mobile & Desktop */}
+              {navigation.selectedLeague && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -190,12 +188,13 @@ const WorkspacePanel = () => {
               {/* Professional Table Header - Desktop Only */}
               {!isMobile && processedGames.length > 0 && (
                 <div className="bg-muted/50 border-b border-border mx-4 rounded-none">
-                  <div className="grid grid-cols-[80px_1fr_120px_120px_120px_32px] gap-4 items-center py-2 px-4 min-h-[60px] text-sm font-semibold text-muted-foreground">
-                    <div className="flex justify-center items-center">TIME</div>
-                    <div className="flex justify-center items-center">TEAM</div>
-                    <div className="flex justify-center items-center">SPREAD</div>
-                    <div className="flex justify-center items-center">TOTAL</div>
-                    <div className="flex justify-center items-center">MONEY LINE</div>
+                  <div className="grid grid-cols-[120px_2fr_1fr_1fr_1fr_48px] items-center justify-items-center">
+                    <div className="mt-4"></div>
+                    <div className="flex items-center justify-center w-full font-bold text-lg tracking-wide">TEAM</div>
+                    <div className="flex justify-center items-center w-full">SPREAD</div>
+                    <div className="flex justify-center items-center w-full">TOTAL</div>
+                    <div className="flex justify-center items-center w-full">MONEY LINE</div>
+                    <div></div>
                   </div>
                 </div>
               )}

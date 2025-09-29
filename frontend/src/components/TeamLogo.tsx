@@ -7,7 +7,6 @@ import {
   type TeamLogoConfig,
 } from "@/lib/teamLogos";
 import { cn } from "@/lib/utils";
-import styles from "./TeamLogo.module.css";
 
 interface TeamLogoProps {
   team: string | TeamLogoConfig;
@@ -57,7 +56,7 @@ export const TeamLogo = memo(function TeamLogo({
     return (
       <div
         className={cn(
-          "flex items-center justify-center bg-muted rounded-full border text-muted-foreground",
+          "flex items-center justify-center bg-muted rounded-md border text-muted-foreground",
           sizeMap[size],
           className,
         )}
@@ -71,7 +70,7 @@ export const TeamLogo = memo(function TeamLogo({
   const showFallback = !logoUrl;
 
   const containerClasses = cn(
-    "flex items-center justify-center relative overflow-hidden bg-white aspect-square",
+    "flex items-center justify-center relative overflow-hidden aspect-square",
     {
       "rounded-full": variant === "circle",
       "rounded-lg": variant === "square",
@@ -117,14 +116,6 @@ export const TeamLogo = memo(function TeamLogo({
         <span className="text-xs font-medium">?</span>
       ) : (
         <LogoImage />
-      )}
-
-      {/* Team color accent ring */}
-      {variant !== "minimal" && (
-        <div
-          className={styles.accentRing + ' accent-ring'}
-          data-primary-color={teamConfig.primaryColor}
-        />
       )}
     </div>
   );
