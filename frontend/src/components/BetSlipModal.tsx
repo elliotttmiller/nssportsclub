@@ -629,6 +629,16 @@ const BetSlipModalComponent = () => {
           </DialogContent>
         </motion.div>
       </Dialog>
+      {/* Floating Toggle Button to Reopen Bet Slip */}
+      {!isOpen && (
+        <button
+          className="fixed top-1/2 right-2 -translate-y-1/2 z-30 bg-muted/80 hover:bg-accent text-muted-foreground hover:text-accent-foreground rounded-full shadow-lg w-8 h-8 flex items-center justify-center transition-all duration-200 border border-border focus:outline-none"
+          onClick={() => setIsBetSlipOpen(true)}
+          aria-label="Show Bet Slip"
+        >
+          <X size={20} weight="bold" />
+        </button>
+      )}
     </AnimatePresence>
   );
 };

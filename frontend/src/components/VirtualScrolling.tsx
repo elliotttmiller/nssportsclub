@@ -74,10 +74,14 @@ export const SmoothScrollContainer = memo(function SmoothScrollContainer({
   return (
     <div
       ref={scrollRef}
-      className={cn("overflow-auto", scrollbarClass, styles.scrollContainer, className)}
-      style={{
-        '--vs-max-height': maxHeight,
-      } as React.CSSProperties}
+      className={cn(
+        "overflow-auto",
+        scrollbarClass,
+        styles.scrollContainer,
+        styles.smoothScrollMaxHeight,
+        className
+      )}
+      data-max-height={maxHeight}
     >
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -135,12 +139,7 @@ export const InfiniteScrollContainer = memo(function InfiniteScrollContainer<
     <div
       ref={scrollRef}
       onScroll={handleScroll}
-      className={cn("overflow-auto seamless-scroll", className)}
-      style={{
-        scrollBehavior: "smooth",
-        WebkitOverflowScrolling: "touch",
-        overscrollBehavior: "contain",
-      }}
+      className={cn("overflow-auto seamless-scroll", styles.infiniteScrollContainer, className)}
     >
       <div className="space-y-2">
         {items.map((item, index) => (
