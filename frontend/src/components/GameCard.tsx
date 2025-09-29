@@ -28,11 +28,14 @@ export const GameCard = memo(
   function GameCard({ game, className, compact = false }: GameCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
+    // Replace isBetInSlip with a simple boolean for now, since bet slip logic is not implemented
+    const isBetInSlip = () => false;
+
     return (
       <motion.div layout className={cn("w-full", className)}>
         <Card
           className={cn(
-            "w-full max-w-4xl mx-auto rounded-lg border border-border/20 bg-[color:var(--color-card)]/85 transition-all duration-200 group backdrop-blur-md min-h-[72px] md:min-h-[88px] hover:-translate-y-0.5 hover:scale-[1.01] cursor-pointer flex flex-col justify-between",
+            "w-full max-w-4xl mx-auto rounded-xl border-none bg-gradient-to-b from-[#181C20] to-[#101215] shadow-lg group min-h-[60px] hover:-translate-y-0.5 hover:scale-[1.01] cursor-pointer flex flex-col justify-between transition-all duration-200 backdrop-blur-md",
             compact ? "max-w-xl" : "",
           )}
           onClick={() => setIsExpanded((v) => !v)}
@@ -46,8 +49,7 @@ export const GameCard = memo(
             <span className="text-white text-xs font-medium">{formatTime(game.startTime)}</span>
           </div>
           <CardContent className="p-0">
-            {/* Main Row: Time, Teams, Spread, Total, Moneyline, Add */}
-            <div className="flex flex-row items-center gap-4 px-6 py-4 w-full">
+            <div className="grid grid-cols-[80px_1fr_120px_120px_120px_32px] gap-4 items-center py-2 px-4 min-h-[60px]">
               {/* Time */}
               <div className="flex flex-col items-center min-w-[60px]">
                 <span className="text-xs text-muted-foreground">TIME</span>
@@ -70,24 +72,78 @@ export const GameCard = memo(
               <div className="flex flex-col items-center min-w-[80px]">
                 <span className="text-xs text-muted-foreground">SPREAD</span>
                 <div className="flex flex-col gap-1">
-                  <span className="text-sm text-white">{formatSpreadLine(game.odds?.spread?.home?.line ?? 0)} {game.odds?.spread?.home?.odds ?? ""}</span>
-                  <span className="text-sm text-white">{formatSpreadLine(game.odds?.spread?.away?.line ?? 0)} {game.odds?.spread?.away?.odds ?? ""}</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      "inline-flex items-center justify-center whitespace-nowrap border border-[color:var(--color-border)] bg-background/80 shadow-xs rounded-full gap-1.5 w-full h-8 text-xs px-2 font-medium transition-all duration-200 hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+                      isBetInSlip()
+                        ? "bg-accent/20 border-accent text-accent-foreground"
+                        : "hover:bg-accent/20 hover:border-accent hover:text-accent-foreground",
+                    )}
+                  >
+                    +{formatSpreadLine(game.odds?.spread?.home?.line ?? 0)} {game.odds?.spread?.home?.odds ?? ""}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      "inline-flex items-center justify-center whitespace-nowrap border border-[color:var(--color-border)] bg-background/80 shadow-xs rounded-full gap-1.5 w-full h-8 text-xs px-2 font-medium transition-all duration-200 hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+                      isBetInSlip()
+                        ? "bg-accent/20 border-accent text-accent-foreground"
+                        : "hover:bg-accent/20 hover:border-accent hover:text-accent-foreground",
+                    )}
+                  >
+                    {formatSpreadLine(game.odds?.spread?.away?.line ?? 0)} {game.odds?.spread?.away?.odds ?? ""}
+                  </Button>
                 </div>
               </div>
               {/* Total */}
               <div className="flex flex-col items-center min-w-[80px]">
                 <span className="text-xs text-muted-foreground">TOTAL</span>
                 <div className="flex flex-col gap-1">
-                  <span className="text-sm text-white">O{formatTotalLine(game.odds?.total?.over?.line ?? 0)} - {game.odds?.total?.over?.odds ?? ""}</span>
-                  <span className="text-sm text-white">U{formatTotalLine(game.odds?.total?.under?.line ?? 0)} - {game.odds?.total?.under?.odds ?? ""}</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      "inline-flex items-center justify-center whitespace-nowrap border border-[color:var(--color-border)] bg-background/80 shadow-xs rounded-full gap-1.5 w-full h-8 text-xs px-2 font-medium transition-all duration-200 hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+                    )}
+                  >
+                    O{formatTotalLine(game.odds?.total?.over?.line ?? 0)} - {game.odds?.total?.over?.odds ?? ""}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      "inline-flex items-center justify-center whitespace-nowrap border border-[color:var(--color-border)] bg-background/80 shadow-xs rounded-full gap-1.5 w-full h-8 text-xs px-2 font-medium transition-all duration-200 hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+                    )}
+                  >
+                    U{formatTotalLine(game.odds?.total?.under?.line ?? 0)} - {game.odds?.total?.under?.odds ?? ""}
+                  </Button>
                 </div>
               </div>
               {/* Money Line */}
               <div className="flex flex-col items-center min-w-[80px]">
                 <span className="text-xs text-muted-foreground">MONEY LINE</span>
                 <div className="flex flex-col gap-1">
-                  <span className="text-sm text-white">{game.odds?.moneyline?.home?.odds ?? ""}</span>
-                  <span className="text-sm text-white">{game.odds?.moneyline?.away?.odds ?? ""}</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      "inline-flex items-center justify-center whitespace-nowrap border border-[color:var(--color-border)] bg-background/80 shadow-xs rounded-full gap-1.5 w-full h-8 text-xs px-2 font-medium transition-all duration-200 hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+                    )}
+                  >
+                    {game.odds?.moneyline?.home?.odds ?? ""}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      "inline-flex items-center justify-center whitespace-nowrap border border-[color:var(--color-border)] bg-background/80 shadow-xs rounded-full gap-1.5 w-full h-8 text-xs px-2 font-medium transition-all duration-200 hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
+                    )}
+                  >
+                    {game.odds?.moneyline?.away?.odds ?? ""}
+                  </Button>
                 </div>
               </div>
               {/* Add Bet Button */}

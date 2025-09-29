@@ -125,8 +125,7 @@ const WorkspacePanel = () => {
             showScrollbar={false}
           >
             <div
-              className="pt-2 pb-24 sm:pb-4 stats-header-container"
-              style={{ fontSize: "var(--fluid-base)" }}
+              className="pt-2 pb-24 sm:pb-4 stats-header-container fluid-base-font"
             >
               {/* Professional League Header */}
               {navigation.selectedLeague && processedGames.length > 0 && (
