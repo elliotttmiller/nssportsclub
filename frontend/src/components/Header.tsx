@@ -1,83 +1,106 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Trophy, User } from "lucide-react";
-import { ReactNode, ButtonHTMLAttributes } from "react";
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-	children: ReactNode;
-	variant?: "default" | "ghost";
-}
-
-const Button = ({ children, variant = "default", ...props }: ButtonProps) => {
-	const baseStyle =
-		"px-3 py-1.5 rounded-md text-sm font-medium transition-colors";
-	const variantStyle =
-		variant === "default"
-			? "bg-primary text-primary-foreground"
-			: "hover:bg-muted";
-	return (
-		<button className={`${baseStyle} ${variantStyle}`} {...props}>
-			{children}
-		</button>
-	);
-};
+import { Link, useLocation } from "react-router-dom";
+import { Trophy, User } from "@phosphor-icons/react";
+import { Button } from "@/components/ui/button";
 
 export const Header = () => {
-	const pathname = usePathname();
+	const location = useLocation();
 
 	return (
-		<header className="h-16 border-b border-border bg-background/95 backdrop-blur-sm flex items-center justify-between px-4 sticky top-0 z-50">
-			{/* Desktop Left Section */}
-			<div className="hidden md:flex items-center space-x-3">
+		<header className="w-full h-20 px-8 py-4 flex items-center justify-between bg-[#101215] shadow-md border-b border-border/10 rounded-b-xl relative">
+			{/* Left Section */}
+			<div className="flex items-center gap-3">
 				<Link
-					href="/"
+					to="/"
 					className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
 				>
-					<Trophy size={24} className="text-accent" />
-					<h1 className="text-xl font-bold text-foreground">NSSPORTSCLUB</h1>
+					<Trophy size={28} weight="fill" className="text-accent" />
+					<span className="font-bold text-xl text-white tracking-wide">
+						NSSPORTSCLUB
+					</span>
 				</Link>
 			</div>
 
 			{/* Mobile Centered Logo */}
 			<div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
 				<Link
-					href="/"
+					to="/"
 					className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
 				>
-					<Trophy size={22} className="text-accent" />
+					<Trophy size={24} weight="fill" className="text-accent" />
+					<h1 className="text-xl font-bold text-foreground tracking-tight">
+						NSSPORTSCLUB
+					</h1>
 				</Link>
 			</div>
 
-			{/* Desktop Navigation */}
-			<div className="hidden md:flex items-center space-x-2">
-				<Link href="/">
-					<Button variant={pathname === "/" ? "default" : "ghost"} aria-label="Home">
+			{/* Navigation Tabs */}
+			<div className="hidden md:flex items-center space-x-0">
+				<nav className="flex items-center gap-0 bg-background rounded-xl overflow-hidden border border-border">
+					<Link
+						to="/"
+						className={`px-8 py-3 text-lg font-semibold transition-colors ${
+							location.pathname === "/"
+								? "bg-accent text-accent-foreground"
+								: "text-muted-foreground hover:bg-muted/40"
+						}`}
+					>
 						Home
-					</Button>
-				</Link>
-				<Link href="/games">
-					<Button variant={pathname === "/games" ? "default" : "ghost"} aria-label="Games">
+					</Link>
+					<Link
+						to="/games"
+						className={`px-8 py-3 text-lg font-semibold transition-colors ${
+							location.pathname === "/games"
+								? "bg-accent text-accent-foreground"
+								: "text-muted-foreground hover:bg-muted/40"
+						}`}
+					>
 						Games
-					</Button>
-				</Link>
-				<Link href="/my-bets">
-					<Button variant={pathname === "/my-bets" ? "default" : "ghost"} aria-label="My Bets">
+					</Link>
+					<Link
+						to="/my-bets"
+						className={`px-8 py-3 text-lg font-semibold transition-colors ${
+							location.pathname === "/my-bets"
+								? "bg-accent text-accent-foreground"
+								: "text-muted-foreground hover:bg-muted/40"
+						}`}
+					>
 						My Bets
-					</Button>
-				</Link>
+					</Link>
+					<Link
+						to="/account"
+						className={`px-8 py-3 text-lg font-semibold flex items-center transition-colors ${
+							location.pathname === "/account"
+								? "bg-accent text-accent-foreground"
+								: "text-muted-foreground hover:bg-muted/40"
+						}`}
+					>
+						<User size={18} className="mr-2" />
+						Account
+					</Link>
+				</nav>
 			</div>
 
-			{/* Desktop Account Section */}
-			<div className="flex items-center">
-				<Link href="/account" className="flex items-center gap-2">
-					<Button variant="ghost" aria-label="Account">
-						<User size={16} />
-						<span className="hidden md:inline">Account</span>
-					</Button>
-				</Link>
+			{/* Mobile Account Icon - Top Right */}
+			<div className="md:hidden absolute right-4 top-1/2 -translate-y-1/2 flex items-center">
+				<Button
+					variant="ghost"
+					size="sm"
+					asChild
+					className="h-8 w-8 p-0"
+				>
+					<Link to="/account">
+						<User
+							size={18}
+							className="text-muted-foreground hover:text-foreground transition-colors"
+						/>
+					</Link>
+				</Button>
 			</div>
+
+			{/* Desktop account section spacer for alignment */}
+			<div className="hidden md:block w-[120px]"></div>
 		</header>
 	);
 };

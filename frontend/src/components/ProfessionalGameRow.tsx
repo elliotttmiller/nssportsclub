@@ -116,23 +116,21 @@ export const ProfessionalGameRow = memo(
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {/* Game Row */}
-        <div className="grid grid-cols-[120px_2fr_1fr_1fr_1fr_48px] gap-4 items-center py-2 px-6 min-h-[64px] bg-card rounded-lg border border-transparent shadow-xl">
-          {/* NFL and Time - horizontally centered together */}
-          <div className="relative h-full">
-            <div className="flex items-center justify-center h-full w-full flex-col">
-              <span className="font-bold text-green-600 text-lg tracking-wide mb-1">
-                NFL
-              </span>
-              <span className="text-base font-bold text-foreground mt-0">
-                {gameDate.toLocaleTimeString("en-US", {
-                  hour: "numeric",
-                  minute: "2-digit",
-                })}
-              </span>
-            </div>
+        <div className="grid grid-cols-[160px_2fr_1fr_1fr_1fr_48px] items-center py-2 px-6 min-h-[64px] bg-card rounded-lg border border-transparent shadow-xl">
+          {/* NFL and Time - moved down with margin */}
+          <div className="flex flex-col items-center justify-start h-full w-full mt-8">
+            <span className="font-bold text-green-600 text-lg tracking-wide mb-1">
+              NFL
+            </span>
+            <span className="text-base font-bold text-foreground mt-0">
+              {gameDate.toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+              })}
+            </span>
           </div>
-          {/* Away Team */}
-          <div className="flex items-center gap-4 min-w-0">
+          {/* Away Team - shifted right with padding */}
+          <div className="flex items-center gap-4 min-w-0 pl-8">
             <TeamLogo team={game.awayTeam.id || game.awayTeam.shortName || game.awayTeam.name} league={game.leagueId} size="lg" className="shadow-lg rounded-md bg-white" />
             <span className="font-bold text-xl text-foreground truncate max-w-[160px]">
               {game.awayTeam.name}
@@ -194,10 +192,10 @@ export const ProfessionalGameRow = memo(
             </Button>
           </div>
         </div>
-        {/* Home Team Row - no NFL/time or '+' button */}
-        <div className="grid grid-cols-[120px_2fr_1fr_1fr_1fr_48px] gap-4 items-center py-2 px-6 min-h-[64px] bg-card rounded-lg border border-transparent shadow-xl">
+        {/* Home Team Row - shifted right with padding */}
+        <div className="grid grid-cols-[160px_2fr_1fr_1fr_1fr_48px] items-center py-2 px-6 min-h-[64px] bg-card rounded-lg border border-transparent shadow-xl">
           <div></div>
-          <div className="flex items-center gap-4 min-w-0">
+          <div className="flex items-center gap-4 min-w-0 pl-8">
             <TeamLogo team={game.homeTeam.id || game.homeTeam.shortName || game.homeTeam.name} league={game.leagueId} size="lg" className="shadow-lg rounded-md bg-white" />
             <span className="font-bold text-xl text-foreground truncate max-w-[160px]">
               {game.homeTeam.name}
