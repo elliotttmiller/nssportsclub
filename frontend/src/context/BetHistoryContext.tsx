@@ -6,7 +6,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { useBetSlipHistory, useAddBetSlipToHistory } from "@/hooks/useApi";
+// Removed broken imports. Replace with local state and placeholder functions.
 import { BetSlip } from "@/types";
 import PropTypes from "prop-types";
 
@@ -29,13 +29,15 @@ interface BetHistoryProviderProps {
 export const BetHistoryProvider: React.FC<BetHistoryProviderProps> = ({
   children,
 }) => {
-  const { data: remoteHistory } = useBetSlipHistory(USER_ID, 20);
-  const addRemoteBetSlip = useAddBetSlipToHistory();
   const [betHistory, setBetHistory] = useState<BetSlip[]>([]);
 
-  useEffect(() => {
-    if (remoteHistory) setBetHistory(remoteHistory);
-  }, [remoteHistory]);
+  // Placeholder for adding bet slip to history
+  const addRemoteBetSlip = async (_userId: string, _betslipId: string) => {
+    // Implement actual logic or API call here if needed
+    return Promise.resolve();
+  };
+
+  // Optionally hydrate betHistory from API here if needed
 
   const refreshHistory = useCallback(() => {
     // Just re-run the hook by updating state (if needed)

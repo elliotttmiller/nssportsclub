@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+"use client";
 import { Header } from "../Header";
 import { BottomNav } from "../BottomNav";
 import { SideNavPanel } from "../panels/SideNavPanel";
@@ -17,13 +17,13 @@ import { BetsProvider } from "@/context/BetsContext";
 import { Toaster } from "@/components/ui/sonner";
 import { SidebarToggle } from "../SidebarToggle";
 import { motion, AnimatePresence } from "framer-motion";
-import { useIsMobile } from "@/hooks/useIsMobile";
+import useIsMobile from "@/hooks/useIsMobile";
 import React from "react";
 
 // ...existing code...
 
 // Removed duplicate RootLayout implementation. Use the named export below.
-function LayoutContent() {
+function LayoutContent({ children }: { children: React.ReactNode }) {
   const { navigation, setMobilePanel, toggleSideNav, toggleActionHub } =
     useNavigation();
   const isMobile = useIsMobile();
@@ -41,7 +41,7 @@ function LayoutContent() {
           <>
             <div className="h-full min-h-0 flex flex-col pb-16">
               <div className="flex-1 min-h-0 overflow-hidden">
-                <Outlet />
+                {children}
               </div>
               <AnimatePresence mode="wait">
                 {navigation.mobilePanel === "navigation" && (
@@ -110,7 +110,7 @@ function LayoutContent() {
               )}
             </AnimatePresence>
             <div className="flex-1 min-w-0 overflow-hidden relative">
-              <Outlet />
+              {children}
               <AnimatePresence mode="wait">
                 {navigation.actionHubOpen && (
                   <motion.div
@@ -135,14 +135,14 @@ function LayoutContent() {
   );
 }
 
-export function RootLayout() {
+export function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <NavigationProvider>
       <BetSlipProvider>
         <UserProvider>
           <BetHistoryProvider>
             <BetsProvider>
-              <LayoutContent />
+              <LayoutContent>{children}</LayoutContent>
             </BetsProvider>
           </BetHistoryProvider>
         </UserProvider>

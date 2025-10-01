@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useEffect, useCallback, memo } from "react";
 import type { Bet } from "@/types";

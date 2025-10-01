@@ -1,13 +1,7 @@
-'use client';
+"use client";
 
-// Helper for professional spread formatting
-function formatSpreadLine(line: number): string {
-  if (line === 0) return "PK";
-  if (line > 0) return `+${line}`;
-  if (line < 0) return `${line}`;
-  return "";
-}
 import { motion, AnimatePresence } from "framer-motion";
+
 import { useState, memo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,6 +11,14 @@ import { TeamLogo } from "@/components/TeamLogo";
 import { cn } from "@/lib/utils";
 
 import type { Game } from "@/types";
+
+// Helper for professional spread formatting
+function formatSpreadLine(line: number): string {
+  if (line === 0) return "PK";
+  if (line > 0) return `+${line}`;
+  if (line < 0) return `${line}`;
+  return "";
+}
 
 interface GameCardProps {
   game: Game;

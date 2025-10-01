@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { motion, useMotionValue } from "framer-motion";
 import { Receipt } from "@phosphor-icons/react";
