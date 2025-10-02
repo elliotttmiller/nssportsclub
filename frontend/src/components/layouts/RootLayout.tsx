@@ -1,3 +1,6 @@
+// This file is deprecated. The active layout is src/app/layout.tsx.
+// Please use src/app/layout.tsx for all layout changes.
+
 "use client";
 import { Header } from "../Header";
 import { BottomNav } from "../BottomNav";
@@ -20,15 +23,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import useIsMobile from "@/hooks/useIsMobile";
 import React from "react";
 
-// ...existing code...
-
 // Removed duplicate RootLayout implementation. Use the named export below.
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const { navigation, setMobilePanel, toggleSideNav, toggleActionHub } =
     useNavigation();
   const isMobile = useIsMobile();
-
-  // ...existing code...
 
   return (
     <div className="universal-responsive-container h-screen bg-background text-foreground flex flex-col overflow-hidden">

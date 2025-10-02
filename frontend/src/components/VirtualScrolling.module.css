@@ -1,8 +1,6 @@
 .scrollContainer {
   scroll-behavior: smooth;
   overscroll-behavior: contain;
-  /* Hide scrollbar for Firefox */
-  scrollbar-width: none;
 }
 
 /* Hide scrollbar for Chrome, Safari, Opera */

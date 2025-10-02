@@ -1,51 +1,48 @@
 "use client";
 
 import './globals.css';
+import { Header } from '@/components/Header';
 import { SideNavPanel } from '@/components/panels/SideNavPanel';
 import { ActionHubPanel } from '@/components/panels/ActionHubPanel';
 import { BetSlipProvider } from '@/context/BetSlipContext';
 import { NavigationProvider } from '@/context/NavigationContext';
-import WorkspacePanel from '@/components/panels/WorkspacePanel';
-import { useState } from "react";
-import { cn } from '@/lib/utils';
-import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { useState } from 'react';
+import { CaretLeft, CaretRight } from '@phosphor-icons/react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-export default function RootLayout() {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [showSidebar, setShowSidebar] = useState(true);
   const [showBetSlip, setShowBetSlip] = useState(true);
 
   return (
     <html lang="en">
-      <body>
+      <body className="min-h-screen w-full overflow-auto">
         <BetSlipProvider>
           <NavigationProvider>
-            <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#181C20] to-[#101215] rounded-xl">
-              {/* Header */}
-              <header className="w-full px-8 py-4 flex items-center justify-between bg-[#101215] shadow-md border-b border-border/10 rounded-b-xl">
-                <div className="flex items-center gap-3">
-                  <span className="font-bold text-xl text-white tracking-wide">NSSPORTSCLUB</span>
-                </div>
-              </header>
-              {/* Main content */}
-              <main className="flex flex-row flex-1 w-full rounded-xl relative">
-                {/* Sidebar */}
-                <aside
-                  className={cn(
-                    "w-[240px] bg-[#181C20] border-r border-border/10 p-4 flex flex-col gap-4 min-h-full shadow-md rounded-xl transition-all duration-300 relative",
-                    showSidebar ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0 pointer-events-none"
-                  )}
-                >
-                  <SideNavPanel />
+            <div className="flex flex-col min-h-screen w-full bg-gradient-to-b from-[#181C20] to-[#101215]">
+              <Header />
+              <main className="flex flex-row flex-1 w-full min-h-0 min-w-0">
+                <AnimatePresence mode="wait">
                   {showSidebar && (
-                    <button
-                      className="absolute top-1/2 left-full -translate-y-1/2 -translate-x-1/2 z-20 bg-muted/80 hover:bg-accent text-muted-foreground hover:text-accent-foreground rounded-full shadow-lg w-8 h-8 flex items-center justify-center transition-all duration-200 border border-border focus:outline-none"
-                      onClick={() => setShowSidebar(false)}
-                      aria-label="Hide Sidebar"
+                    <motion.aside
+                      key="sidebar"
+                      initial={{ x: -80, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      exit={{ x: -80, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="max-w-[240px] w-full bg-[#181C20] border-r border-border/10 p-2 flex flex-col min-h-0 flex-shrink-0 shadow-md relative min-w-0 z-20"
                     >
-                      <CaretLeft size={20} weight="bold" />
-                    </button>
+                      <SideNavPanel />
+                      <button
+                        className="absolute top-1/2 left-full -translate-y-1/2 -translate-x-1/2 z-30 bg-muted/80 hover:bg-accent text-muted-foreground hover:text-accent-foreground rounded-full shadow-lg w-8 h-8 flex items-center justify-center transition-all duration-200 border border-border focus:outline-none"
+                        onClick={() => setShowSidebar(false)}
+                        aria-label="Hide Sidebar"
+                      >
+                        <CaretLeft size={20} weight="bold" />
+                      </button>
+                    </motion.aside>
                   )}
-                </aside>
+                </AnimatePresence>
                 {!showSidebar && (
                   <button
                     className="fixed top-1/2 left-2 -translate-y-1/2 z-30 bg-muted/80 hover:bg-accent text-muted-foreground hover:text-accent-foreground rounded-full shadow-lg w-8 h-8 flex items-center justify-center transition-all duration-200 border border-border focus:outline-none"
@@ -55,28 +52,32 @@ export default function RootLayout() {
                     <CaretRight size={20} weight="bold" />
                   </button>
                 )}
-                {/* Center panel */}
-                <section className="flex-1 flex flex-col items-center justify-start px-8 py-6 rounded-xl">
-                  <WorkspacePanel />
+                <section className="flex-1 flex flex-col min-w-0 min-h-0">
+                  <div className="w-full max-w-6xl mx-auto px-2 md:px-8 lg:px-12 min-h-full bg-background">
+                    {children}
+                  </div>
                 </section>
-                {/* Bet slip panel */}
-                <aside
-                  className={cn(
-                    "w-[320px] bg-[#181C20] border-l border-border/10 p-6 flex flex-col gap-4 min-h-full shadow-md rounded-xl transition-all duration-300 relative",
-                    showBetSlip ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
-                  )}
-                >
-                  <ActionHubPanel />
+                <AnimatePresence mode="wait">
                   {showBetSlip && (
-                    <button
-                      className="absolute top-1/2 right-full -translate-y-1/2 translate-x-1/2 z-20 bg-muted/80 hover:bg-accent text-muted-foreground hover:text-accent-foreground rounded-full shadow-lg w-8 h-8 flex items-center justify-center transition-all duration-200 border border-border focus:outline-none"
-                      onClick={() => setShowBetSlip(false)}
-                      aria-label="Hide Bet Slip"
+                    <motion.aside
+                      key="betslip"
+                      initial={{ x: 80, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      exit={{ x: 80, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="max-w-[320px] w-full bg-[#181C20] border-l border-border/10 p-4 flex flex-col min-h-0 flex-shrink-0 shadow-md relative min-w-0 z-20"
                     >
-                      <CaretRight size={20} weight="bold" />
-                    </button>
+                      <ActionHubPanel />
+                      <button
+                        className="absolute top-1/2 right-full -translate-y-1/2 translate-x-1/2 z-30 bg-muted/80 hover:bg-accent text-muted-foreground hover:text-accent-foreground rounded-full shadow-lg w-8 h-8 flex items-center justify-center transition-all duration-200 border border-border focus:outline-none"
+                        onClick={() => setShowBetSlip(false)}
+                        aria-label="Hide Bet Slip"
+                      >
+                        <CaretRight size={20} weight="bold" />
+                      </button>
+                    </motion.aside>
                   )}
-                </aside>
+                </AnimatePresence>
                 {!showBetSlip && (
                   <button
                     className="fixed top-1/2 right-2 -translate-y-1/2 z-30 bg-muted/80 hover:bg-accent text-muted-foreground hover:text-accent-foreground rounded-full shadow-lg w-8 h-8 flex items-center justify-center transition-all duration-200 border border-border focus:outline-none"

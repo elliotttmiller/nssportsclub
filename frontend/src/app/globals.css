@@ -2,36 +2,117 @@
 @import "tailwindcss/utilities";
 
 :root {
-  --background: 15.34% 0.018 257.23;
-  --foreground: 98.93% 0.002 253.21;
-  --primary: 62.8% 0.226 264.33;
-  --primary-foreground: 13.34% 0.048 263.22;
-  --secondary: 22.29% 0.038 259.34;
-  --secondary-foreground: 98.93% 0.002 253.21;
-  --muted: 22.29% 0.038 259.34;
-  --muted-foreground: 69.58% 0.011 256.36;
-  --accent: 70.83% 0.239 142.32;
-  --accent-foreground: 13.34% 0.048 263.22;
-  --destructive: 56.17% 0.229 17.51;
-  --destructive-foreground: 98.93% 0.002 253.21;
-  --border: 22.29% 0.038 259.34;
-  --input: 22.29% 0.038 259.34;
-  --ring: 62.8% 0.226 264.33;
+  /* --- Modern Elegant Palette from Vite --- */
+  --color-neutral-1: oklch(0.99 0.002 250);
+  --color-neutral-2: oklch(0.97 0.004 250);
+  --color-neutral-3: oklch(0.94 0.006 250);
+  --color-neutral-4: oklch(0.9 0.01 250);
+  --color-neutral-5: oklch(0.84 0.014 250);
+  --color-neutral-6: oklch(0.75 0.018 250);
+  --color-neutral-7: oklch(0.66 0.022 250);
+  --color-neutral-8: oklch(0.55 0.025 250);
+  --color-neutral-9: oklch(0.45 0.028 250);
+  --color-neutral-10: oklch(0.32 0.025 250);
+  --color-neutral-11: oklch(0.22 0.02 250);
+  --color-neutral-12: oklch(0.14 0.015 250);
+  --color-neutral-contrast: oklch(0.09 0.008 250);
+  --color-accent-1: oklch(0.98 0.018 265);
+  --color-accent-2: oklch(0.95 0.036 265);
+  --color-accent-3: oklch(0.92 0.054 265);
+  --color-accent-4: oklch(0.88 0.072 265);
+  --color-accent-5: oklch(0.82 0.09 265);
+  --color-accent-6: oklch(0.75 0.108 265);
+  --color-accent-7: oklch(0.68 0.126 265);
+  --color-accent-8: oklch(0.6 0.144 265);
+  --color-accent-9: oklch(0.48 0.18 265);
+  --color-accent-10: oklch(0.42 0.15 265);
+  --color-bg: oklch(0.16 0.007 240);
+  --color-bg-inset: oklch(0.08 0.007 240);
+  --color-bg-overlay: oklch(0.1 0.007 240);
+  --color-fg: oklch(0.98 0.003 240);
+  --background: var(--color-bg);
+  --foreground: var(--color-fg);
+  --primary: var(--color-accent-9);
+  --primary-foreground: var(--color-neutral-1);
+  --secondary: var(--color-neutral-8);
+  --secondary-foreground: var(--color-neutral-1);
+  --muted: var(--color-neutral-6);
+  --muted-foreground: var(--color-neutral-3);
+  --accent: var(--color-accent-9);
+  --accent-foreground: var(--color-neutral-1);
+  --destructive: oklch(0.56 0.229 17.51);
+  --destructive-foreground: var(--color-neutral-1);
+  --border: var(--color-neutral-10);
+  --input: var(--color-neutral-8);
+  --ring: var(--color-accent-6);
   --radius: 1rem;
 }
 
 *,
 *::before,
 *::after {
-  border-color: oklch(var(--border));
+  border-color: #222; /* fallback for old browsers */
 }
 body {
-  background-color: oklch(var(--background));
-  color: oklch(var(--foreground));
+  background-color: #181c20; /* fallback for old browsers */
+  color: #fff; /* fallback for old browsers */
   font-family: 'Inter', 'Nunito', 'Manrope', 'Segoe UI', 'Arial', sans-serif;
   font-weight: 400;
   font-size: 16px;
   letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Universal responsive container for all panels and modals */
+.universal-responsive-container {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: stretch !important;
+  overflow: hidden !important;
+}
+
+/* Scrollbar and focus ring styles from Vite */
+.scrollbar-hide,
+.seamless-scroll {
+  -ms-overflow-style: none;
+  /* scrollbar-width: none;  Firefox only, removed for compatibility */
+}
+.scrollbar-hide::-webkit-scrollbar,
+.seamless-scroll::-webkit-scrollbar {
+  display: none;
+}
+.virtual-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.virtual-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.virtual-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(155, 155, 155, 0.5);
+  border-radius: 2px;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-accent-6);
+  outline-offset: 2px;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+.animate-shimmer {
+  animation: shimmer 2s infinite;
 }
