@@ -7,13 +7,13 @@ export const mockGames: Game[] = [
     leagueId: 'nba',
     status: 'upcoming',
     homeTeam: {
-      id: 'gsw',
+      id: 'golden-state-warriors',
       name: 'Golden State Warriors',
       shortName: 'GSW',
       logo: '/logos/nba/golden-state-warriors.svg',
     },
     awayTeam: {
-      id: 'lal',
+      id: 'los-angeles-lakers',
       name: 'Los Angeles Lakers',
       shortName: 'LAL',
       logo: '/logos/nba/los-angeles-lakers.svg',
@@ -39,13 +39,13 @@ export const mockGames: Game[] = [
     leagueId: 'nfl',
     status: 'upcoming',
     homeTeam: {
-      id: 'kc',
+      id: 'kansas-city-chiefs',
       name: 'Kansas City Chiefs',
       shortName: 'KC',
       logo: '/logos/nfl/kansas-city-chiefs.svg',
     },
     awayTeam: {
-      id: 'mia',
+      id: 'miami-dolphins',
       name: 'Miami Dolphins',
       shortName: 'MIA',
       logo: '/logos/nfl/miami-dolphins.svg',

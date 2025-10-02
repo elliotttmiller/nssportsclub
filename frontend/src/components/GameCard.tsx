@@ -60,12 +60,12 @@ export const GameCard = memo(
             {/* TEAM */}
             <div className="flex flex-col gap-2 items-start">
               <div className="flex items-center gap-2">
-                <TeamLogo team={game.homeTeam.shortName || game.homeTeam.name} league={game.leagueId} size="sm" />
+                <TeamLogo team={game.homeTeam.id} league={game.leagueId} size="sm" />
                 <span className="font-bold text-white text-base">{game.homeTeam.name}</span>
                 <span className="text-xs text-muted-foreground">({game.homeTeam.shortName})</span>
               </div>
               <div className="flex items-center gap-2">
-                <TeamLogo team={game.awayTeam.shortName || game.awayTeam.name} league={game.leagueId} size="sm" />
+                <TeamLogo team={game.awayTeam.id} league={game.leagueId} size="sm" />
                 <span className="font-bold text-white text-base">{game.awayTeam.name}</span>
                 <span className="text-xs text-muted-foreground">({game.awayTeam.shortName})</span>
               </div>
